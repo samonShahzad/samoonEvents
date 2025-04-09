@@ -1,0 +1,446 @@
+{% extends "index.html" %}
+
+{% block title %}Dashboard - samoonEvents{% endblock %}
+
+{% block content %}
+<div class="bg-gradient-to-r from-amber-50 to-sky-50 min-h-screen">
+    <div class="container max-w-[1920px] mx-auto p-4 sm:p-8">
+        <!-- Page Header -->
+        <div class="mb-10 text-center">
+            <h1 class="text-4xl font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600">Your Dashboard</h1>
+            <p class="text-gray-600 mt-2">Manage your events and track your progress</p>
+        </div>
+
+        <!-- Stats Cards Section -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <!-- Future Events Card -->
+            <div class="bg-white backdrop-blur-sm rounded-xl shadow-md p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-amber-100">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 ml-3">Future Events</h2>
+                </div>
+                <p class="text-3xl font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600">{{ future_events|length }}</p>
+            </div>
+
+            <!-- Guest Status Card -->
+            <div class="bg-white backdrop-blur-sm rounded-xl shadow-md p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-amber-100">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 bg-sky-100 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 ml-3">Guest Status</h2>
+                </div>
+                <div class="flex flex-col">
+                    <p class="text-base text-gray-600">Attending: <span class="font-bold text-gray-800">{{ attending_guests + invited_guests }}</span></p>
+                    <p class="text-base text-gray-600">Not Attending: <span class="font-bold text-gray-800">{{ not_attending_guests }}</span></p>
+                    <p class="text-base text-gray-600">Pending: <span class="font-bold text-gray-800">{{ pending_guests }}</span></p>
+                    <p class="text-lg font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600 mt-2">Total guests: {{ attending_guests + invited_guests + not_attending_guests + pending_guests }}</p>
+                </div>
+            </div>
+
+            <!-- Vendor Status Card -->
+            <div class="bg-white backdrop-blur-sm rounded-xl shadow-md p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-amber-100">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 ml-3">Vendors</h2>
+                </div>
+                <div class="flex flex-col">
+                    <p class="text-base text-gray-600">Confirmed vendors: <span class="font-bold text-gray-800">{{ confirmed_vendors }}</span></p>
+                    <p class="text-base text-gray-600">Pending vendors: <span class="font-bold text-gray-800">{{ pending_vendors }}</span></p>
+                    <p class="text-lg font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600 mt-2">Total vendors: {{ vendors|length }}</p>
+                </div>
+            </div>
+
+            <!-- Tasks Overview Card -->
+            <div class="bg-white backdrop-blur-sm rounded-xl shadow-md p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 border border-amber-100">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800 ml-3">Pending Tasks</h2>
+                </div>
+                <p class="text-3xl font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600">{{ remaining_tasks|length }}</p>
+            </div>
+        </section>
+
+        <!-- Tasks and Events Grid -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+            <!-- Future Events List -->
+            <div class="bg-white rounded-xl shadow-md p-6 border border-amber-100">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600">Upcoming Events</h2>
+                </div>
+                {% if future_events %}
+                    <div class="space-y-4">
+                        {% for event in future_events[:3] %}  <!-- Show only first 3 events -->
+                        <div class="border-b border-gray-200 pb-4 last:border-0 hover:bg-amber-50 transition-colors p-3 rounded-lg">
+                            <h3 class="text-xl font-semibold text-gray-900">{{ event.name }}</h3>
+                            <div class="flex items-center text-lg text-gray-600 mt-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                {{ event.date.strftime('%B %d, %Y') }}
+                            </div>
+                            <div class="flex items-center text-lg text-gray-600 mt-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                {{ event.location|default('TBD') }}
+                            </div>
+                            <div class="mt-3">
+                                <a href="{{ url_for('app_views.event_details', event_id=event.event_id) }}"
+                                   class="text-lg text-sky-600 hover:text-sky-800 font-medium transition-colors inline-flex items-center">
+                                    View Details
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    {% if future_events|length > 3 %}
+                    <div class="mt-6 text-center pt-4 border-t border-gray-200">
+                        <a href="{{ url_for('app_views.events') }}"
+                           class="inline-flex items-center text-lg font-medium text-sky-600 hover:text-sky-800 transition-colors">
+                            View all {{ future_events|length }} events
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="bg-amber-50 rounded-lg p-6 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-amber-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <p class="text-lg text-gray-600">No upcoming events scheduled</p>
+                        <a href="{{ url_for('app_views.events') }}"
+                           class="inline-flex items-center mt-4 text-lg font-medium text-sky-600 hover:text-sky-800 transition-colors">
+                            Create your first event
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Tasks List -->
+            <div class="bg-white rounded-xl shadow-md p-6 border border-amber-100">
+                <h2 class="text-2xl font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600 mb-6">Pending Tasks</h2>
+                {% if remaining_tasks %}
+                    <div class="max-h-[400px] overflow-y-auto pr-2">
+                        {% set current_event = namespace(id=None) %}
+                        {% for task in remaining_tasks %}
+                            {% if task.event_id != current_event.id %}
+                                {% if not loop.first %}</div>{% endif %}
+                                {% set current_event.id = task.event_id %}
+                                <div class="mb-4">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-2 pb-2 border-b border-gray-200">
+                                        {{ task.event.name }}
+                                        <span class="text-lg text-gray-500">
+                                            ({{ task.event.date.strftime('%B %d, %Y') }})
+                                        </span>
+                                    </h3>
+                                    <div class="space-y-3">
+                            {% endif %}
+                            <div class="flex items-center gap-3 pl-2 {% if task.status == 'completed' %}opacity-50{% endif %} transition-opacity duration-300">
+                                <input type="checkbox"
+                                       class="w-5 h-5 rounded border-gray-300 cursor-pointer accent-amber-500"
+                                       data-task-id="{{ task.task_id }}"
+                                       data-event-id="{{ task.event_id }}"
+                                       {% if task.status == 'completed' %}checked{% endif %}>
+                                <div class="flex-1">
+                                    <p class="text-lg text-gray-900">{{ task.description }}</p>
+                                    {% if task.due_date %}
+                                    <p class="text-base text-gray-500 flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
+                                        Due: {{ task.due_date.strftime('%B %d, %Y') }}
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if loop.last %}</div></div>{% endif %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="bg-amber-50 rounded-lg p-6 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-amber-500 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p class="text-lg text-gray-600">All tasks completed!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Vendors Section -->
+        <section class="mt-16">
+            <h2 class="text-2xl font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600 mb-8">Vendor Management</h2>
+
+            {% if vendors %}
+                {% set grouped_vendors = {} %}
+                {% for vendor in vendors %}
+                    {% for event in vendor.events %}
+                        {% if event.event_id not in grouped_vendors %}
+                            {% set _ = grouped_vendors.update({event.event_id: {'event': event, 'vendors': []}}) %}
+                        {% endif %}
+                        {% if vendor not in grouped_vendors[event.event_id]['vendors'] %}
+                            {% set _ = grouped_vendors[event.event_id]['vendors'].append(vendor) %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+
+                {% for event_id, group in grouped_vendors.items() %}
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8 border border-amber-100">
+                        <div class="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-amber-50 to-sky-50">
+                            <h3 class="text-xl font-bold text-gray-900">
+                                {{ group.event.name | safe }} Vendors
+                                <span class="text-sm text-gray-500 font-normal">
+                                    ({{ group.event.date.strftime('%B %d, %Y') }})
+                                </span>
+                            </h3>
+                        </div>
+
+                        <div class="divide-y divide-gray-200">
+                            {% for vendor in group.vendors %}
+                                <div class="p-6 flex items-center justify-between hover:bg-amber-50 transition-colors">
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h4 class="text-xl font-semibold text-gray-900">{{ vendor.name }}</h4>
+                                            <span class="px-2 py-1 text-base rounded-full
+                                                {% if vendor.status == 'confirmed' %}bg-green-100 text-green-800
+                                                {% elif vendor.status == 'cancelled' %}bg-red-100 text-red-800
+                                                {% else %}bg-amber-100 text-amber-800{% endif %}">
+                                                {{ vendor.status|capitalize }}
+                                            </span>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-4 text-base text-gray-600">
+                                            <p class="flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                                </svg>
+                                                Category: {{ vendor.category }}
+                                            </p>
+                                            {% if vendor.service_fee %}
+                                                <p class="flex items-center">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    Fee: AED {{ "{:,.0f}".format(vendor.service_fee) }}
+                                                </p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <form method="POST"
+                                              action="{{ url_for('app_views.update_vendor_status', event_id=event_id, vendor_id=vendor.vendor_id) }}"
+                                              class="inline">
+                                            <select name="status"
+                                                    onchange="this.form.submit()"
+                                                    class="rounded-lg border-gray-300 text-base focus:ring-amber-500 focus:border-amber-500">
+                                                <option value="pending" {% if vendor.status == 'pending' %}selected{% endif %}>Pending</option>
+                                                <option value="confirmed" {% if vendor.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                                            </select>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="bg-white rounded-xl shadow-md overflow-hidden border border-amber-100">
+                    <div class="p-8 text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-amber-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        <p class="text-lg text-gray-600 mb-4">No vendors added to any events yet</p>
+                        <a href="{{ url_for('app_views.vendors') }}"
+                           class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-amber-500 to-sky-600 text-white font-medium rounded-lg shadow hover:shadow-md transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-14 0l2 2m7-2l2 2M5 19l2-2m0 0l7-7 7 7m-14 0l2 2m7-2l2 2M5 7l2-2M12 7l7 7-7 7" />
+                            </svg>
+                            Browse Vendors
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </section>
+
+        <!-- Quick Actions Section -->
+        <section class="mt-16 mb-8">
+            <div class="bg-gradient-to-r from-amber-500 to-sky-600 rounded-xl shadow-lg overflow-hidden">
+                <div class="p-8 text-white">
+                    <h2 class="text-2xl font-bold mb-6">Quick Actions</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <a href="{{ url_for('app_views.events') }}"
+                           class="flex items-center justify-center bg-white bg-opacity-20 rounded-lg p-4 hover:bg-opacity-30 transition-all group">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            <span class="text-lg font-medium">Create Event</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                        <a href="{{ url_for('app_views.vendors') }}"
+                           class="flex items-center justify-center bg-white bg-opacity-20 rounded-lg p-4 hover:bg-opacity-30 transition-all group">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span class="text-lg font-medium">Browse Vendors</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                        <a href="{{ url_for('app_views.profile') }}"
+                           class="flex items-center justify-center bg-white bg-opacity-20 rounded-lg p-4 hover:bg-opacity-30 transition-all group">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            <span class="text-lg font-medium">Edit Profile</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {% block scripts %}
+        <script>
+        // Function to update task status
+        async function updateTaskStatus(taskId, eventId, completed) {
+            try {
+                const response = await fetch(`/event/${eventId}/tasks`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({
+                        task_id: taskId,
+                        status: completed ? 'completed' : 'pending'
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showFlashMessage(data.message, 'success');
+
+                    // Update UI and reload page after a short delay
+                    const taskElement = document.querySelector(`[data-task-id="${taskId}"]`).closest('.flex');
+                    if (completed) {
+                        taskElement.classList.add('opacity-50');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        taskElement.classList.remove('opacity-50');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    }
+                } else {
+                    showFlashMessage(data.error, 'error');
+                    // Revert checkbox state
+                    const checkbox = document.querySelector(`[data-task-id="${taskId}"]`);
+                    checkbox.checked = !completed;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showFlashMessage('An error occurred while updating the task status', 'error');
+                // Revert checkbox state
+                const checkbox = document.querySelector(`[data-task-id="${taskId}"]`);
+                checkbox.checked = !completed;
+            }
+        }
+
+        // Add event listeners when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Task checkboxes event listeners
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][data-task-id]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const taskId = this.getAttribute('data-task-id');
+                    const eventId = this.getAttribute('data-event-id');
+                    updateTaskStatus(taskId, eventId, this.checked);
+                });
+            });
+
+            // Update all vendor forms to use AJAX
+            const vendorForms = document.querySelectorAll('form[action*="update_vendor_status"]');
+            vendorForms.forEach(form => {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    try {
+                        const response = await fetch(this.action, {
+                            method: 'POST',
+                            body: new FormData(this),
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        });
+
+                        const data = await response.json();
+                        if (response.ok) {
+                            showFlashMessage('Vendor status updated successfully', 'success');
+                            // Update the status display without reloading
+                            const vendorItem = this.closest('.p-6');
+                            const statusSpan = vendorItem.querySelector('span.rounded-full');
+                            const newStatus = this.querySelector('select').value;
+                            statusSpan.textContent = newStatus.charAt(0).toUpperCase() + newStatus.slice(1);
+                            statusSpan.className = `px-2 py-1 text-base rounded-full ${newStatus === 'confirmed' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'}`;
+                            // Add delay before reload
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1500);
+                        } else {
+                            showFlashMessage('Failed to update vendor status', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showFlashMessage('An error occurred while updating the vendor status', 'error');
+                    }
+                });
+            });
+        });
+        </script>
+        {% endblock %}
+
+        <style>
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .transition-opacity {
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .opacity-0 {
+            opacity: 0;
+        }
+        </style>
+        {% endblock %}

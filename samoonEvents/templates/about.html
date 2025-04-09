@@ -1,0 +1,307 @@
+{% extends "base.html" %} {% block title %}About - samoonEvents{% endblock %} {%
+block content %}
+<div class="bg-gradient-to-r from-amber-50 to-sky-50 min-h-screen">
+  <!-- Hero section with Dubai skyline -->
+  <div
+    class="relative overflow-hidden bg-cover bg-center h-96"
+    style="
+      background-image: url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+    "
+  >
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"
+    ></div>
+    <div
+      class="container mx-auto px-6 relative z-10 flex items-center h-full text-white"
+    >
+      <div>
+        <h1 class="text-5xl md:text-6xl font-bold mb-4">About samoonEvents</h1>
+        <p class="text-xl md:text-2xl max-w-2xl">
+          Born in Dubai, Connecting the World
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content section -->
+  <div class="container mx-auto px-6 py-16">
+    <!-- Our Story -->
+    <div class="flex flex-col lg:flex-row items-center gap-12 mb-20">
+      <div class="lg:w-1/2">
+        <h2 class="text-4xl font-bold mb-6 text-amber-600">Our Story</h2>
+        <p class="text-lg mb-6 text-gray-700">
+          Founded in the vibrant city of Dubai in 2025, samoonEvents was born
+          from a vision to transform how people plan and manage their special
+          moments. Inspired by the city's blend of tradition and innovation,
+          we've created a platform that combines cutting-edge technology with
+          personalized service.
+        </p>
+        <p class="text-lg text-gray-700">
+          This journey began after recognizing the need for a comprehensive
+          solution that simplifies the complexities of event planning while
+          preserving the joy of creating memorable experiences.
+        </p>
+      </div>
+      <div class="lg:w-1/2">
+        <img
+          src="https://images.unsplash.com/photo-1517457373958-b7bdd4587205?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+          alt="Dubai skyline"
+          class="rounded-lg shadow-xl w-full"
+        />
+      </div>
+    </div>
+
+    <!-- Our Mission -->
+    <div class="flex flex-col lg:flex-row-reverse items-center gap-12 mb-20">
+      <div class="lg:w-1/2">
+        <h2 class="text-4xl font-bold mb-6 text-sky-600">Our Mission</h2>
+        <p class="text-lg mb-6 text-gray-700">
+          At samoonEvents, we're on a mission to make event planning accessible,
+          enjoyable, and stress-free for everyone, anywhere in the world. We
+          believe every celebration deserves to be extraordinary, whether it's
+          an intimate gathering or a grand wedding.
+        </p>
+        <p class="text-lg text-gray-700">
+          We strive to empower our users with intuitive tools and resources that
+          bring their vision to life, while saving them time and reducing
+          complexity. By connecting event hosts with quality vendors and
+          simplifying guest management, we help create seamless experiences from
+          concept to celebration.
+        </p>
+      </div>
+      <div class="lg:w-1/2">
+        <img
+          src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+          alt="Event planning"
+          class="rounded-lg shadow-xl w-full"
+        />
+      </div>
+    </div>
+
+    <!-- Global Presence -->
+    <div class="mb-20">
+      <h2 class="text-4xl font-bold mb-8 text-center text-purple-600">
+        Our Global Presence
+      </h2>
+      <div class="relative h-96 rounded-xl overflow-hidden shadow-xl">
+        <img
+          src="https://images.unsplash.com/photo-1589519160732-57fc498494f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+          alt="World map"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+        <div
+          class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center"
+        >
+          <div class="text-center text-white p-6 max-w-3xl">
+            <p class="text-2xl font-bold mb-4">From Dubai to the World</p>
+            <p class="text-lg">
+              While our roots are firmly planted in Dubai, our platform serves
+              event planners across six continents. We've helped create
+              memorable experiences in over 50 countries, bringing our unique
+              blend of Middle Eastern hospitality and technological innovation
+              to the global stage.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Values -->
+    <div class="mb-20">
+      <h2 class="text-4xl font-bold mb-12 text-center text-teal-600">
+        Our Core Values
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div
+          class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
+        >
+          <div
+            class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-6 mx-auto"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-amber-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-center mb-3">Excellence</h3>
+          <p class="text-gray-600 text-center">
+            We're committed to delivering exceptional quality in everything we
+            do, from our platform's functionality to customer support.
+          </p>
+        </div>
+        <div
+          class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
+        >
+          <div
+            class="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mb-6 mx-auto"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-sky-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+              />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-center mb-3">Global Perspective</h3>
+          <p class="text-gray-600 text-center">
+            We embrace cultural diversity and design our platform to serve event
+            planners from all backgrounds and traditions.
+          </p>
+        </div>
+        <div
+          class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
+        >
+          <div
+            class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6 mx-auto"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-purple-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+              />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-center mb-3">Innovation</h3>
+          <p class="text-gray-600 text-center">
+            We continuously evolve our platform, incorporating cutting-edge
+            technology to stay ahead in the dynamic world of event planning.
+          </p>
+        </div>
+        <div
+          class="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
+        >
+          <div
+            class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-6 mx-auto"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-teal-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-center mb-3">User-Centered</h3>
+          <p class="text-gray-600 text-center">
+            We put our users first, designing every feature with their needs in
+            mind and providing personalized support throughout their journey.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leadership Team -->
+    <h2 class="text-4xl font-bold mb-12 text-center text-indigo-600">
+      Our Leadership
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-1 gap-8 mb-20">
+      <div
+        class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:scale-105"
+      >
+        <div class="h-60 overflow-hidden">
+          <img
+            src="{{ url_for('static', filename='images/default_profile.jpg') }}"
+            alt="Samon Shahzad"
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <div class="p-6">
+          <h3 class="text-2xl font-bold mb-2">Samon Shahzad</h3>
+          <p class="text-indigo-600 font-medium mb-4">Founder & CEO</p>
+          <p class="text-gray-600">
+            With over 15 years of experience in both tech and event management,
+            Samon brings a unique vision to samoonEvents, combining Middle
+            Eastern hospitality with global innovation.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Our Dubai HQ -->
+    <div
+      class="bg-gradient-to-r from-amber-500 to-amber-600 rounded-2xl shadow-2xl overflow-hidden mb-20"
+    >
+      <div class="flex flex-col lg:flex-row">
+        <div class="lg:w-1/2 p-10 lg:p-16 flex items-center">
+          <div class="text-white">
+            <h2 class="text-4xl font-bold mb-6">Our Dubai Headquarters</h2>
+            <p class="text-lg mb-6">
+              Located in the heart of Dubai's vibrant business district, our
+              headquarters reflects our commitment to excellence and innovation.
+              Just like the city we call home, we blend tradition with
+              cutting-edge technology to create something truly exceptional.
+            </p>
+            <address class="not-italic text-lg">
+              samoonEvents FZ-LLC<br />
+              Dubai Design District, Building 7<br />
+              Dubai, United Arab Emirates<br />
+              <a href="mailto:contact@samoonevents.com" class="underline"
+                >35562778@student.murdoch.edu.au</a
+              >
+            </address>
+          </div>
+        </div>
+        <div class="lg:w-1/2">
+          <img
+            src="https://images.unsplash.com/photo-1546412414-8035e1776c9a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            alt="Dubai office"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center p-12 bg-white rounded-2xl shadow-lg">
+      <h2
+        class="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600"
+      >
+        Ready to Start Planning Your Perfect Event?
+      </h2>
+      <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+        Join thousands of event planners around the world who trust samoonEvents
+        to bring their vision to life.
+      </p>
+      <a
+        href="{{ url_for('app_views.signup') }}"
+        class="inline-block px-8 py-4 text-xl font-bold text-white bg-gradient-to-r from-amber-500 to-sky-600 rounded-lg shadow-md hover:shadow-lg transform transition-all hover:-translate-y-1"
+      >
+        Get Started Today
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

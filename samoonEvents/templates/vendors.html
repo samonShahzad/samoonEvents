@@ -1,0 +1,614 @@
+{% extends "index.html" %} {% block title %}Vendors{% endblock %} {% block
+content %}
+<div class="container mx-auto p-6">
+    {% if event_id %}
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Select Vendors</h1>
+        <a
+            href="{{ url_for('app_views.event_details', event_id=event_id) }}"
+            class="inline-flex items-center px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-bold rounded-md transition-colors"
+        >
+            <svg
+                class="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                />
+            </svg>
+            Done Adding Vendors
+        </a>
+    </div>
+    {% else %}
+    <h1 class="text-3xl font-bold mb-6">Vendors</h1>
+    {% endif %}
+
+    <div class="flex flex-col md:flex-row gap-4 mb-6">
+        <div class="relative flex-grow">
+            <i
+                class="fas fa-search absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400"
+            ></i>
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search vendors..."
+                class="w-full pl-8 pr-2 py-2 border rounded-md"
+            />
+        </div>
+        <select
+            id="filterSelect"
+            class="w-full md:w-[180px] border rounded-md p-2"
+        >
+            <option value="">All Types</option>
+            <option value="Catering">Catering</option>
+            <option value="Florist">Florist</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Photography">Photography</option>
+            <option value="Venue">Venue</option>
+            <option value="Bakery">Bakery</option>
+            <option value="Decor">Decor</option>
+        </select>
+    </div>
+
+    <div
+        id="vendorGrid"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+    >
+        {% for vendor in vendors %}
+        <div class="border rounded-lg p-4">
+            <h3 class="text-xl font-bold">{{ vendor.name }}</h3>
+            <img
+                src="{{ vendor.image_path }}"
+                alt="{{ vendor.name }}"
+                class="w-full h-48 object-cover mb-4 rounded-md"
+                loading="lazy"
+            />
+            <!-- Add lazy loading -->
+            <p class="text-gray-600 mb-2">Category: {{ vendor.category }}</p>
+            <p class="text-gray-600 mb-2">{{ vendor.description }}</p>
+            <p class="text-gray-600 mb-2">Phone: {{ vendor.phone_number }}</p>
+            <p class="text-gray-600 mb-2">Email: {{ vendor.email }}</p>
+            <p class="text-gray-600 mb-2">
+                Service Fee: AED {{ vendor.service_fee }}
+            </p>
+
+            {% if event_id %} {% if vendor in event_vendors %}
+            <span class="text-green-500 font-semibold">✓ Already Added</span>
+            {% else %}
+            <button
+                onclick="addVendorToEvent('{{ vendor.vendor_id }}', '{{ event_id }}')"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+            >
+                Add Vendor
+            </button>
+            {% endif %} {% endif %}
+
+            <!-- Review Section -->
+            <div class="mt-2">
+                <div class="flex items-center">
+                    <div
+                        class="rating-stars {% if vendor in user_reviewed_vendors %}cursor-not-allowed opacity-75{% else %}cursor-pointer{% endif %}"
+                        data-vendor-id="{{ vendor.vendor_id }}"
+                    >
+                        {% for i in range(5) %}
+                        <span
+                            class="star text-2xl {% if vendor.average_rating and i < vendor.average_rating|round|int %}text-yellow-400{% else %}text-gray-300{% endif %}"
+                            >★</span
+                        >
+                        {% endfor %}
+                    </div>
+                    <span class="ml-2 text-sm text-gray-600"
+                        >({{ vendor.reviews|length }} reviews)</span
+                    >
+                    {% if vendor in user_reviewed_vendors %}
+                    <span class="ml-2 text-sm text-green-600"
+                        >✓ You've reviewed this vendor</span
+                    >
+                    {% endif %}
+                </div>
+
+                <!-- View reviews button -->
+                <div class="mt-2">
+                    <button
+                        onclick="showReviews('{{ vendor.vendor_id }}')"
+                        class="text-blue-600 hover:text-blue-800 font-medium"
+                    >
+                        View Reviews ({{ vendor.reviews|length }})
+                    </button>
+                </div>
+            </div>
+
+            <!-- rating modal -->
+            <div
+                id="ratingModal-{{ vendor.vendor_id }}"
+                class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
+            >
+                <div
+                    class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white"
+                >
+                    <div class="mt-3">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-medium text-gray-900">
+                                Rate and Review
+                            </h3>
+                            <button
+                                type="button"
+                                class="cancel-review text-gray-500 hover:text-gray-700"
+                            >
+                                <svg
+                                    class="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                        <form
+                            id="reviewForm-{{ vendor.vendor_id }}"
+                            class="space-y-4"
+                            onsubmit="submitReview(event, {{ vendor.vendor_id }})"
+                        >
+                            <div class="rating-input flex space-x-1">
+                                {% for i in range(5) %}
+                                <span
+                                    class="star-input text-2xl cursor-pointer text-gray-300"
+                                    data-value="{{ i + 1 }}"
+                                    >★</span
+                                >
+                                {% endfor %}
+                            </div>
+                            <div>
+                                <textarea
+                                    name="comment"
+                                    rows="4"
+                                    class="w-full border rounded-md p-2"
+                                    placeholder="Write your review here..."
+                                    required
+                                ></textarea>
+                            </div>
+                            <div class="flex justify-end space-x-2">
+                                <button
+                                    type="button"
+                                    onclick="cancelReview({{ vendor.vendor_id }})"
+                                    class="cancel-review px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                                >
+                                    Submit
+                                </button>
+                            </div>
+                            <input
+                                type="hidden"
+                                name="rating"
+                                id="rating-{{ vendor.vendor_id }}"
+                                value="0"
+                            />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <p id="noVendorsMessage" class="text-center mt-6 text-gray-500 hidden">
+        No vendors found matching your criteria.
+    </p>
+</div>
+
+<!-- review modal -->
+<div
+    id="reviewsModal"
+    class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50"
+>
+    <div
+        class="relative top-20 mx-auto p-5 border w-[600px] shadow-lg rounded-md bg-white"
+    >
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold" id="reviewsModalTitle">Reviews</h3>
+            <button
+                onclick="closeReviewsModal()"
+                class="text-gray-500 hover:text-gray-700"
+            >
+                <svg
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"
+                    />
+                </svg>
+            </button>
+        </div>
+        <div id="reviewsList" class="max-h-[400px] overflow-y-auto">
+            <!-- Reviews will be populated here -->
+        </div>
+    </div>
+</div>
+{% endblock %} {% block scripts %} {{ super() }}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const filterSelect = document.getElementById("filterSelect");
+        const searchInput = document.getElementById("searchInput");
+        const vendorGrid = document.getElementById("vendorGrid");
+        const noVendorsMessage = document.getElementById("noVendorsMessage");
+
+        function filterVendors() {
+            const selectedCategory = filterSelect.value;
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            // Get all vendor cards
+            const vendorCards = vendorGrid.getElementsByClassName("border");
+
+            Array.from(vendorCards).forEach((card) => {
+                // Get category text (the one that starts with "Category: ")
+                const categoryElement = Array.from(
+                    card.querySelectorAll("p.text-gray-600"),
+                ).find((p) => p.textContent.includes("Category:"));
+                const categoryText = categoryElement
+                    ? categoryElement.textContent
+                          .replace("Category:", "")
+                          .trim()
+                    : "";
+
+                // Get vendor name from the h3 element
+                const nameElement = card.querySelector("h3.text-xl");
+                const vendorName = nameElement
+                    ? nameElement.textContent.toLowerCase()
+                    : "";
+
+                // Check if matches both category and search
+                const matchesCategory =
+                    !selectedCategory || categoryText === selectedCategory;
+                const matchesSearch =
+                    !searchTerm || vendorName.includes(searchTerm);
+
+                // Show/hide card
+                if (matchesCategory && matchesSearch) {
+                    card.style.display = "";
+                    visibleCount++;
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            // Show/hide no results message
+            noVendorsMessage.style.display =
+                visibleCount === 0 ? "block" : "none";
+        }
+
+        // Add event listeners
+        filterSelect.addEventListener("change", filterVendors);
+        searchInput.addEventListener("input", filterVendors);
+
+        // Initial filter (in case there's a default value)
+        filterVendors();
+
+        function showFlashMessage(message, type = "success") {
+            const existingFlashes = document.querySelectorAll(".flash-message");
+            existingFlashes.forEach((flash) => flash.remove());
+
+            const flashContainer = document.getElementById("flash-container");
+            const messageDiv = document.createElement("div");
+            messageDiv.className = `flash-message p-4 rounded-lg text-white transition-opacity duration-500 ${
+                type === "success" ? "bg-green-500" : "bg-red-500"
+            }`;
+
+            messageDiv.innerHTML = `
+            <div class="flex items-center">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    ${
+                        type === "success"
+                            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>'
+                            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>'
+                    }
+                </svg>
+                ${message}
+            </div>
+        `;
+
+            flashContainer.appendChild(messageDiv);
+            setTimeout(() => {
+                messageDiv.classList.add("opacity-0");
+                setTimeout(() => messageDiv.remove(), 500);
+            }, 3000);
+        }
+
+        // Make showReviews available globally
+        window.showReviews = async function (vendorId) {
+            try {
+                const response = await fetch(
+                    `/api/vendors/${vendorId}/reviews`,
+                );
+                if (!response.ok) {
+                    throw new Error("Failed to fetch reviews");
+                }
+                const data = await response.json();
+
+                // Create modal content
+                let modalContent = `
+                <h3 class="text-lg font-semibold mb-4">Reviews for ${data.vendor_name}</h3>
+                <div class="space-y-4">
+            `;
+
+                if (data.reviews.length === 0) {
+                    modalContent += `<p class="text-gray-600">No reviews yet.</p>`;
+                } else {
+                    data.reviews.forEach((review) => {
+                        modalContent += `
+                        <div class="border-b pb-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium">${
+                                    review.user_name
+                                }</span>
+                                <span class="text-sm text-gray-600">${
+                                    review.created_at
+                                }</span>
+                            </div>
+                            <div class="flex items-center mt-1">
+                                <div class="text-yellow-400">
+                                    ${"★".repeat(review.rating)}${"☆".repeat(
+                                        5 - review.rating,
+                                    )}
+                                </div>
+                            </div>
+                            <p class="mt-2 text-gray-700">${review.comment}</p>
+                        </div>
+                    `;
+                    });
+                }
+
+                modalContent += `</div>`;
+
+                // Show the modal with reviews
+                const dialog = document.createElement("dialog");
+                dialog.className = "rounded-lg shadow-xl p-6 w-full max-w-md";
+                dialog.innerHTML = `
+                ${modalContent}
+                <div class="mt-6 flex justify-end">
+                    <button onclick="this.closest('dialog').close()"
+                            class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+                        Close
+                    </button>
+                </div>
+            `;
+
+                document.body.appendChild(dialog);
+                dialog.showModal();
+
+                // Clean up when dialog closes
+                dialog.addEventListener("close", () => {
+                    document.body.removeChild(dialog);
+                });
+            } catch (error) {
+                console.error("Error:", error);
+                showFlashMessage(
+                    "Failed to load reviews. Please try again.",
+                    "error",
+                );
+            }
+        };
+
+        // Handle rating modal
+        document.querySelectorAll(".rating-stars").forEach((ratingDiv) => {
+            const vendorId = ratingDiv.dataset.vendorId;
+            const modal = document.getElementById(`ratingModal-${vendorId}`);
+            const form = document.getElementById(`reviewForm-${vendorId}`);
+            const stars = form.querySelectorAll(".star-input");
+            let selectedRating = 0;
+
+            // Open modal when clicking on stars
+            ratingDiv.addEventListener("click", () => {
+                if (modal) {
+                    modal.classList.remove("hidden");
+                } else {
+                    console.error(`Modal not found for vendor ${vendorId}`);
+                }
+            });
+
+            // Handle star hover and selection in modal
+            stars.forEach((star, index) => {
+                star.addEventListener("mouseover", () => {
+                    stars.forEach((s, i) => {
+                        s.classList.toggle("text-yellow-400", i <= index);
+                    });
+                });
+
+                star.addEventListener("mouseout", () => {
+                    stars.forEach((s, i) => {
+                        s.classList.toggle(
+                            "text-yellow-400",
+                            i < selectedRating,
+                        );
+                    });
+                });
+
+                star.addEventListener("click", () => {
+                    selectedRating = index + 1;
+                    form.querySelector(`#rating-${vendorId}`).value =
+                        selectedRating;
+                    stars.forEach((s, i) => {
+                        s.classList.toggle(
+                            "text-yellow-400",
+                            i < selectedRating,
+                        );
+                    });
+                });
+            });
+
+            // Handle form submission
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const comment = form.querySelector(
+                    'textarea[name="comment"]',
+                ).value;
+
+                if (selectedRating === 0) {
+                    showFlashMessage("Please select a rating", "error");
+                    return;
+                }
+
+                try {
+                    const response = await fetch("/api/reviews", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            vendor_id: vendorId,
+                            rating: selectedRating,
+                            comment: comment,
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        showFlashMessage(
+                            "Review submitted successfully",
+                            "success",
+                        );
+                        form.reset();
+                        selectedRating = 0;
+                        stars.forEach((s) => {
+                            s.classList.remove("text-yellow-400");
+                            s.classList.add("text-gray-300");
+                        });
+                        modal.classList.add("hidden");
+                        await showReviews(vendorId);
+                    } else {
+                        showFlashMessage(
+                            data.error || "Failed to submit review",
+                            "error",
+                        );
+                    }
+                } catch (error) {
+                    console.error("Error:", error);
+                    showFlashMessage("Failed to submit review", "error");
+                }
+            });
+
+            // Handle cancel button
+            form.querySelector(".cancel-review").addEventListener(
+                "click",
+                () => {
+                    form.reset();
+                    selectedRating = 0;
+                    stars.forEach((s) => {
+                        s.classList.remove("text-yellow-400");
+                        s.classList.add("text-gray-300");
+                    });
+                    modal.classList.add("hidden");
+                },
+            );
+        });
+    });
+
+    function showMessagePopup(type, message) {
+        const popup = document.getElementById("messagePopup");
+        const icon = document.getElementById("popupIcon");
+        const title = document.getElementById("popupTitle");
+        const messageText = document.getElementById("popupMessage");
+
+        // Set content based on type
+        if (type === "success") {
+            icon.innerHTML = `
+            <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>`;
+            icon.className =
+                "mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100";
+            title.textContent = "Success!";
+        } else {
+            icon.innerHTML = `
+            <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>`;
+            icon.className =
+                "mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100";
+            title.textContent = "Error";
+        }
+
+        messageText.textContent = message;
+        popup.classList.remove("hidden");
+
+        // Handle close button
+        const closeBtn = document.getElementById("closePopup");
+        closeBtn.onclick = () => {
+            popup.classList.add("hidden");
+            if (type === "success") {
+                window.location.reload();
+            }
+        };
+    }
+
+    function addVendorToEvent(vendorId, eventId) {
+        fetch("/vendors", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            body: JSON.stringify({
+                event_id: eventId,
+                vendor_id: vendorId,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.message) {
+                    showFlashMessage(data.message, "success");
+                    // Update the button to show "Already Added"
+                    const button = document.querySelector(
+                        `button[onclick="addVendorToEvent('${vendorId}', '${eventId}')"]`,
+                    );
+                    if (button) {
+                        const parent = button.parentElement;
+                        button.remove();
+                        const span = document.createElement("span");
+                        span.className = "text-green-500 font-semibold";
+                        span.textContent = "✓ Already Added";
+                        parent.appendChild(span);
+                    }
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    showFlashMessage(
+                        data.error || "Failed to add vendor",
+                        "error",
+                    );
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                showFlashMessage(
+                    "Failed to add vendor. Please try again.",
+                    "error",
+                );
+            });
+    }
+</script>
+{% endblock %}

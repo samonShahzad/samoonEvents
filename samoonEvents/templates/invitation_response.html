@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invitation Response</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gray-100 font-sans min-h-screen flex items-center justify-center"
+  >
+    <div class="max-w-2xl w-full mx-auto p-6">
+      <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+        {% if error %}
+        <h1 class="text-2xl font-bold text-red-600 mb-4">Error</h1>
+        <p class="text-gray-700">{{ error }}</p>
+        {% elif status == 'Accepted' %}
+        <div class="mb-6">
+          <span class="inline-block p-3 bg-green-100 rounded-full">
+            <svg
+              class="w-8 h-8 text-green-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+          </span>
+        </div>
+        <h1 class="text-2xl font-bold text-green-600 mb-4">
+          Thank You for Accepting!
+        </h1>
+        <p class="text-gray-700 text-lg">
+          We're excited to have you join us at {{ event_name }}. We'll send you
+          a reminder as the date approaches.
+        </p>
+        {% else %}
+        <div class="mb-6">
+          <span class="inline-block p-3 bg-gray-100 rounded-full">
+            <svg
+              class="w-8 h-8 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </span>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-600 mb-4">Response Received</h1>
+        <p class="text-gray-700 text-lg">
+          Thank you for letting us know that you won't be able to attend {{
+          event_name }}. We hope to see you at future events!
+        </p>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>

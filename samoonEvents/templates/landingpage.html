@@ -1,0 +1,403 @@
+{% extends "base.html" %} {% block title %}Home - samoonEvents{% endblock %} {%
+block content %}
+<div class="bg-gradient-to-r from-amber-50 to-sky-50">
+  <!-- Hero Section with modern Dubai skyline -->
+  <section class="relative overflow-hidden h-screen max-h-[800px]">
+    <img
+      src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+      alt="Dubai skyline"
+      class="absolute inset-0 w-full h-full object-cover object-center z-0"
+    />
+
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60 z-10"
+    ></div>
+
+    <div
+      class="container mx-auto px-6 relative z-20 flex flex-col items-center justify-center h-full text-center text-white"
+    >
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+        Plan Your Perfect Event
+      </h1>
+      <p class="text-xl md:text-2xl max-w-3xl mb-10">
+        From weddings to corporate gatherings, birthdays and more, samoonEvents
+        brings your vision to life with sophistication and ease.
+      </p>
+      <div
+        class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+      >
+        <a
+          href="{{ url_for('app_views.signup') }}"
+          class="px-8 py-4 text-xl font-medium bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white rounded-lg shadow-lg transition-all duration-300"
+        >
+          Get Started
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 inline-block ml-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
+          </svg>
+        </a>
+        <a
+          href="{{ url_for('app_views.about') }}"
+          class="px-8 py-4 text-xl font-medium bg-white bg-opacity-20 hover:bg-opacity-30 text-white border border-white border-opacity-40 rounded-lg shadow-lg transition-all duration-300"
+        >
+          Learn More
+        </a>
+      </div>
+    </div>
+
+    <!-- Decorative wave divider -->
+    <div class="absolute bottom-0 left-0 right-0 z-20">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 320"
+        class="w-full h-auto"
+      >
+        <path
+          fill="#fff"
+          fill-opacity="1"
+          d="M0,192L48,197.3C96,203,192,213,288,218.7C384,224,480,224,576,208C672,192,768,160,864,165.3C960,171,1056,213,1152,224C1248,235,1344,213,1392,202.7L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+        ></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2
+          class="text-4xl font-bold mb-4 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600"
+        >
+          Why Choose samoonEvents?
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Our platform combines cutting-edge technology with intuitive design to
+          make event planning effortless and enjoyable.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <!-- Feature 1 -->
+        <div
+          class="bg-gradient-to-br from-amber-50 to-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow transform hover:-translate-y-1 duration-300"
+        >
+          <div
+            class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mb-6"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-amber-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+              />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-4 text-gray-800">
+            Effortless Planning
+          </h3>
+          <p class="text-gray-600">
+            Streamlined tools for managing guest lists, budgets, vendors, and
+            timelines all in one place. Stay organized with minimal effort.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div
+          class="bg-gradient-to-br from-sky-50 to-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow transform hover:-translate-y-1 duration-300"
+        >
+          <div
+            class="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mb-6"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-sky-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-4 text-gray-800">
+            Guest Management
+          </h3>
+          <p class="text-gray-600">
+            Send beautiful digital invitations, track RSVPs in real-time, and
+            communicate with guests seamlessly through our platform.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div
+          class="bg-gradient-to-br from-purple-50 to-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow transform hover:-translate-y-1 duration-300"
+        >
+          <div
+            class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-8 w-8 text-purple-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+              />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-4 text-gray-800">Premium Vendors</h3>
+          <p class="text-gray-600">
+            Access our curated network of top-rated vendors across all
+            categories. Read reviews, compare services, and book with
+            confidence.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Event Types Showcase -->
+  <section class="py-20 bg-gradient-to-r from-amber-50 to-sky-50">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2
+          class="text-4xl font-bold mb-4 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600"
+        >
+          Perfect for Any Occasion
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          From intimate gatherings to grand celebrations, samoonEvents helps you
+          create memorable experiences.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Wedding -->
+        <div class="relative overflow-hidden rounded-xl shadow-lg group">
+          <img
+            src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            alt="Wedding"
+            class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"
+          ></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6">
+            <h3 class="text-2xl font-bold text-white mb-2">Weddings</h3>
+            <p class="text-white text-opacity-90">
+              Make your special day truly unforgettable
+            </p>
+          </div>
+        </div>
+
+        <!-- Corporate -->
+        <div class="relative overflow-hidden rounded-xl shadow-lg group">
+          <img
+            src="https://images.unsplash.com/photo-1551818255-e6e10975bc17?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            alt="Corporate event"
+            class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"
+          ></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6">
+            <h3 class="text-2xl font-bold text-white mb-2">Corporate</h3>
+            <p class="text-white text-opacity-90">
+              Professional events that leave an impression
+            </p>
+          </div>
+        </div>
+
+        <!-- Birthday -->
+        <div class="relative overflow-hidden rounded-xl shadow-lg group">
+          <img
+            src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            alt="Birthday celebration"
+            class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"
+          ></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6">
+            <h3 class="text-2xl font-bold text-white mb-2">Birthdays</h3>
+            <p class="text-white text-opacity-90">
+              Celebrate another year with style
+            </p>
+          </div>
+        </div>
+
+        <!-- Other events -->
+        <div class="relative overflow-hidden rounded-xl shadow-lg group">
+          <img
+            src="https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            alt="Social event"
+            class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"
+          ></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6">
+            <h3 class="text-2xl font-bold text-white mb-2">Social Events</h3>
+            <p class="text-white text-opacity-90">
+              Gatherings that bring people together
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2
+          class="text-4xl font-bold mb-4 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-sky-600"
+        >
+          What Our Users Say
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Hear from people who have transformed their event planning experience
+          with samoonEvents.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <!-- Testimonial 1 -->
+        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+          <div class="flex items-center mb-6">
+            <div class="h-14 w-14 rounded-full overflow-hidden mr-4">
+              <img
+                src="https://randomuser.me/api/portraits/women/54.jpg"
+                alt="Sarah K."
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <div>
+              <h3 class="font-bold text-lg">Sarah K.</h3>
+              <p class="text-gray-600">Wedding Planner</p>
+            </div>
+          </div>
+          <p class="text-gray-600 italic">
+            "samoonEvents revolutionized how I coordinate weddings. The platform
+            is intuitive, elegant, and saves me countless hours on each event I
+            plan."
+          </p>
+          <div class="mt-4 text-amber-500">
+            <span>★★★★★</span>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+          <div class="flex items-center mb-6">
+            <div class="h-14 w-14 rounded-full overflow-hidden mr-4">
+              <img
+                src="https://randomuser.me/api/portraits/men/32.jpg"
+                alt="Michael T."
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <div>
+              <h3 class="font-bold text-lg">Michael T.</h3>
+              <p class="text-gray-600">Corporate Events</p>
+            </div>
+          </div>
+          <p class="text-gray-600 italic">
+            "Managing corporate events across multiple locations was always a
+            challenge until I discovered samoonEvents. Now I can coordinate
+            everything from one dashboard."
+          </p>
+          <div class="mt-4 text-amber-500">
+            <span>★★★★★</span>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+          <div class="flex items-center mb-6">
+            <div class="h-14 w-14 rounded-full overflow-hidden mr-4">
+              <img
+                src="https://randomuser.me/api/portraits/women/76.jpg"
+                alt="Aisha M."
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <div>
+              <h3 class="font-bold text-lg">Aisha M.</h3>
+              <p class="text-gray-600">Birthday Host</p>
+            </div>
+          </div>
+          <p class="text-gray-600 italic">
+            "Planning my daughter's 16th birthday was stress-free with
+            samoonEvents. The vendor recommendations were perfect, and the guest
+            management tool saved me so much time!"
+          </p>
+          <div class="mt-4 text-amber-500">
+            <span>★★★★★</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="py-20 bg-gradient-to-r from-amber-600 to-sky-600 text-white">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-4xl font-bold mb-8">
+        Ready to Create Unforgettable Memories?
+      </h2>
+      <p class="text-xl mb-10 max-w-2xl mx-auto">
+        Join thousands of event planners worldwide who trust samoonEvents to
+        bring their vision to life.
+      </p>
+      <a
+        href="{{ url_for('app_views.signup') }}"
+        class="inline-block px-8 py-4 text-xl font-bold bg-white text-black bg-clip-text bg-gradient-to-r from-amber-600 to-sky-600 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 duration-300 border-4 border-white"
+      >
+        Start Planning Today
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 inline-block ml-2"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 8l4 4m0 0l-4 4m4-4H3"
+          />
+        </svg>
+      </a>
+    </div>
+  </section>
+</div>
+{% endblock %}

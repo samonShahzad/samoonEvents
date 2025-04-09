@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Invitation</title>
+    <style>
+      /* Base styles */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #fffbeb;
+        margin: 0;
+        padding: 0;
+        color: #374151;
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      /* Card styles */
+      .card {
+        background-color: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Header styles */
+      .header {
+        position: relative;
+        height: 160px;
+        background: linear-gradient(135deg, #f59e0b 0%, #0ea5e9 100%);
+        text-align: center;
+        overflow: hidden;
+      }
+
+      .skyline {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background-image: url("https://i.imgur.com/XHPktUB.png");
+        background-position: center bottom;
+        background-repeat: repeat-x;
+        background-size: auto 60px;
+        opacity: 0.2;
+      }
+
+      .header-content {
+        position: relative;
+        z-index: 10;
+        padding: 40px 24px;
+      }
+
+      .header h1 {
+        font-size: 32px;
+        font-weight: bold;
+        color: #ffffff;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Content styles */
+      .content {
+        padding: 32px 24px;
+      }
+
+      .greeting {
+        font-size: 20px;
+        margin-bottom: 24px;
+        text-align: center;
+      }
+
+      .event-name {
+        font-weight: bold;
+        color: #f59e0b;
+      }
+
+      /* Event details styles */
+      .event-details {
+        background-color: #f8fafc;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 32px;
+        border-left: 4px solid #0ea5e9;
+      }
+
+      .event-details p {
+        display: flex;
+        align-items: center;
+        margin: 16px 0;
+        font-size: 18px;
+      }
+
+      .event-icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 12px;
+        display: inline-block;
+        flex-shrink: 0;
+      }
+
+      .event-label {
+        font-weight: 600;
+        color: #4b5563;
+        margin-right: 8px;
+        width: 80px;
+        display: inline-block;
+        flex-shrink: 0;
+      }
+
+      /* Response section styles */
+      .response-section {
+        text-align: center;
+        padding: 0 24px 24px;
+      }
+
+      .response-section h2 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #1f2937;
+        margin-bottom: 24px;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 320px;
+        margin: 0 auto;
+      }
+
+      @media (min-width: 480px) {
+        .button-container {
+          flex-direction: row;
+          justify-content: center;
+        }
+      }
+
+      .response-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px 24px;
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #374151;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .accept-button {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        border: none;
+      }
+
+      .accept-button:hover {
+        background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .decline-button {
+        background-color: #f9fafb;
+        border: 1px solid #e5e7eb;
+      }
+
+      .decline-button:hover {
+        background-color: #f3f4f6;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .button-icon {
+        margin-right: 8px;
+      }
+
+      /* Footer styles */
+      .footer {
+        text-align: center;
+        padding: 24px;
+        border-top: 1px solid #e5e7eb;
+        color: #6b7280;
+        font-size: 14px;
+      }
+
+      .divider {
+        height: 4px;
+        background: linear-gradient(90deg, #f59e0b, #0ea5e9);
+        margin: 0;
+        border: none;
+      }
+
+      /* Decorative elements */
+      .decorative-dots {
+        display: flex;
+        justify-content: center;
+        margin: 24px 0;
+      }
+
+      .dot {
+        height: 6px;
+        width: 6px;
+        border-radius: 50%;
+        margin: 0 4px;
+      }
+
+      .dot-1 {
+        background-color: #f59e0b;
+      }
+
+      .dot-2 {
+        background-color: #0ea5e9;
+      }
+
+      .dot-3 {
+        width: 12px;
+        background-color: #f59e0b;
+      }
+
+      .dot-4 {
+        background-color: #0ea5e9;
+      }
+
+      .dot-5 {
+        background-color: #f59e0b;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <!-- Header with Dubai-inspired design -->
+        <div class="header">
+          <div class="skyline"></div>
+          <div class="header-content">
+            <h1>You're Invited!</h1>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- Content -->
+        <div class="content">
+          <p class="greeting">
+            I am delighted to invite you to my upcoming event:
+            <span class="event-name">{{ event_name }}</span>. I hope you can
+            join us for this special occasion!
+          </p>
+
+          <!-- Event Details with icons -->
+          <div class="event-details">
+            <p>
+              <span class="event-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="#0ea5e9"
+                >
+                  <path
+                    d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zM9 14H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2zm-8 4H7v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"
+                  />
+                </svg>
+              </span>
+              <span class="event-label">Date:</span>
+              <span>{{ event_date }}</span>
+            </p>
+            <p>
+              <span class="event-icon">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="#0ea5e9"
+                >
+                  <path
+                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"
+                  />
+                </svg>
+              </span>
+              <span class="event-label">Location:</span>
+              <span>{{ event_location }}</span>
+            </p>
+          </div>
+
+          <div class="decorative-dots">
+            <div class="dot dot-1"></div>
+            <div class="dot dot-2"></div>
+            <div class="dot dot-3"></div>
+            <div class="dot dot-4"></div>
+            <div class="dot dot-5"></div>
+          </div>
+
+          <!-- Response Section -->
+          <div class="response-section">
+            <h2>Will you attend?</h2>
+            <div class="button-container">
+              <a
+                href="{{ url_for('app_views.update_invitation_status', invitation_id=invitation_id, status='Accepted', _external=True) }}"
+                class="response-button accept-button"
+              >
+                <span class="button-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </span>
+                Yes, I'll be there!
+              </a>
+              <a
+                href="{{ url_for('app_views.update_invitation_status', invitation_id=invitation_id, status='Declined', _external=True) }}"
+                class="response-button decline-button"
+              >
+                <span class="button-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                  </svg>
+                </span>
+                I can't make it
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+          <p>Best regards,<br /><strong>{{ owner_name }}</strong></p>
+          <p>Powered by samoonEvents - Making special moments unforgettable</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

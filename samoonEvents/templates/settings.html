@@ -1,0 +1,187 @@
+{% extends "index.html" %} {% block title %}Settings - Memorable Events{%
+endblock %} {% block content %}
+<div class="max-w-3xl mx-auto transition-colors duration-200">
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6">
+      <h1 class="text-3xl font-bold">Settings</h1>
+    </div>
+
+    <div class="p-6 space-y-8">
+      <!-- Notification Preferences -->
+      <section class="bg-white rounded-lg">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+          Notification Preferences
+        </h2>
+        <div class="space-y-4">
+          <div
+            class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+          >
+            <div>
+              <span class="text-gray-700 font-medium">Email Notifications</span>
+              <p class="text-sm text-gray-500">
+                Receive email updates about your events
+              </p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                id="emailNotifications"
+                class="sr-only peer"
+              />
+              <div
+                class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"
+              ></div>
+            </label>
+          </div>
+          <div
+            class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+          >
+            <div>
+              <span class="text-gray-700 font-medium">Event Reminders</span>
+              <p class="text-sm text-gray-500">
+                Get notified before your events start
+              </p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="eventReminders" class="sr-only peer" />
+              <div
+                class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"
+              ></div>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reminder Settings -->
+      <section class="bg-white rounded-lg">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+          Reminder Settings
+        </h2>
+        <div
+          class="p-4 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+        >
+          <label
+            for="defaultReminder"
+            class="block text-sm font-medium text-gray-700 mb-2"
+            >Default Reminder Time</label
+          >
+          <select
+            id="defaultReminder"
+            name="defaultReminder"
+            class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          >
+            <option value="15">15 minutes before</option>
+            <option value="30">30 minutes before</option>
+            <option value="60">1 hour before</option>
+            <option value="1440">1 day before</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Theme Settings -->
+      <section class="bg-white rounded-lg">
+        <h2 class="text-2xl font-semibold mb-4 text-gray-800">
+          Theme Settings
+        </h2>
+        <div
+          class="flex items-center justify-between p-4 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+        >
+          <div>
+            <span class="text-gray-700 font-medium">Dark Mode</span>
+            <p class="text-sm text-gray-500">
+              Switch between light and dark theme
+            </p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="darkMode" class="sr-only peer" />
+            <div
+              class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"
+            ></div>
+          </label>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      // Load saved preferences
+      const savedSettings = JSON.parse(localStorage.getItem('userSettings') || '{}');
+
+      document.getElementById('emailNotifications').checked = savedSettings.emailNotifications || {{ user_settings.emailNotifications|tojson }};
+      document.getElementById('eventReminders').checked = savedSettings.eventReminders || {{ user_settings.eventReminders|tojson }};
+      document.getElementById('defaultReminder').value = savedSettings.defaultReminder || '{{ user_settings.defaultReminder }}';
+      document.getElementById('darkMode').checked = savedSettings.darkMode || {{ user_settings.darkMode|tojson }};
+
+      // Apply initial dark mode state
+      applyDarkMode(document.getElementById('darkMode').checked);
+
+      // Save settings when changed
+      const saveSettings = () => {
+          const settings = {
+              emailNotifications: document.getElementById('emailNotifications').checked,
+              eventReminders: document.getElementById('eventReminders').checked,
+              defaultReminder: document.getElementById('defaultReminder').value,
+              darkMode: document.getElementById('darkMode').checked
+          };
+
+          localStorage.setItem('userSettings', JSON.stringify(settings));
+
+          // Send settings to server
+          fetch('{{ url_for("app_views.settings") }}', {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(settings)
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.message) {
+                  showFlashMessage(data.message);
+                  applyDarkMode(settings.darkMode);
+              } else {
+                  showFlashMessage(data.error, 'error');
+              }
+          })
+          .catch(() => {
+              showFlashMessage('An error occurred', 'error');
+          });
+      };
+
+      // Add change listeners
+      ['emailNotifications', 'eventReminders', 'defaultReminder', 'darkMode'].forEach(id => {
+          document.getElementById(id).addEventListener('change', saveSettings);
+      });
+  });
+
+  function applyDarkMode(isDark) {
+      if (isDark) {
+          document.documentElement.classList.add('dark');
+          document.querySelectorAll('.bg-white').forEach(el => {
+              el.classList.remove('bg-white');
+              el.classList.add('bg-gray-800');
+          });
+          document.querySelectorAll('.text-gray-700, .text-gray-800').forEach(el => {
+              el.classList.add('text-gray-200');
+          });
+          document.querySelectorAll('.text-gray-500').forEach(el => {
+              el.classList.add('text-gray-400');
+          });
+      } else {
+          document.documentElement.classList.remove('dark');
+          document.querySelectorAll('.bg-gray-800').forEach(el => {
+              el.classList.remove('bg-gray-800');
+              el.classList.add('bg-white');
+          });
+          document.querySelectorAll('.text-gray-200').forEach(el => {
+              el.classList.remove('text-gray-200');
+          });
+          document.querySelectorAll('.text-gray-400').forEach(el => {
+              el.classList.remove('text-gray-400');
+          });
+      }
+  }
+</script>
+{% endblock %}
